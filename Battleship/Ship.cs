@@ -6,5 +6,8 @@ namespace Battleship
 {
     abstract class Ship
     {
+        protected int damagedSegments;
+        public abstract void SetLocation(Cell[] shipSegments);
+        public abstract String DamageSegment();
     }
 }
