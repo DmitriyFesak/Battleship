@@ -20,16 +20,16 @@ namespace Battleship
             isShipPlaced = false;
         }
 
-        public String TakeShot()
+        public bool TakeShot()
         {
             isShot = true;
             if (isShipPlaced)
             {
-                return "hit";
+                return true;
             }
             else
             {
-                return "miss";
+                return false;
             }
         }
 

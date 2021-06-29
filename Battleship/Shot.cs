@@ -9,7 +9,7 @@ namespace Battleship
         private int x;
         private int y;
         private String result;
-
+        // TODO: enum
         public Shot(int x, int y)
         {
             this.x = x;
