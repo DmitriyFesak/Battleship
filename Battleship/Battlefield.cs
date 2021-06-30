@@ -64,8 +64,22 @@ namespace Battleship
             return DESTROYERS_COUNT + CRUISERS_COUNT + SUBMARINES_COUNT + BATTLESHIPS_COUNT;
         }
 
+        public int GetRows()
+        {
+            return ROWS_COUNT;
+        }
+
+        public int GetCols()
+        {
+            return COLS_COUNT;
+        }
+
         public int CheckCell(int y, int x)
         {
+            if (cells[y, x].isShot)
+            {
+                return ((int)Enumerables.ShotResult.alreadyShot);
+            }
             if (cells[y, x].TakeShot())
             {
                 return cells[y, x].GetShip().DamageSegment();

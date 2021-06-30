@@ -6,5 +6,6 @@ namespace Battleship
 {
     interface IUserInterface
     {
+        public void MakeMove();
     }
 }

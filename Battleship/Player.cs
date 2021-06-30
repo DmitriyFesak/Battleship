@@ -75,16 +75,35 @@ namespace Battleship
             return enemyField;
         }
 
-        public void MakeShot(int y, int x)
+        public bool MakeShot(int y, int x)
         {
             Shot shot = new Shot(y, x);
             shot.SetResult(field.CheckCell(y, x));
+            if (shot.GetResult() == ((int)Enumerables.ShotResult.destroyed))
+            {
+                shipsLeft--;
+            }
+            else if (shot.GetResult() == ((int)Enumerables.ShotResult.alreadyShot))
+            {
+                return false;
+            }
             shotsHistory.Add(shot);
+            return true;
         }
 
         public int GetAmountOfShips()
         {
             return shipsLeft;
+        }
+
+        public int GetRowsOfField()
+        {
+            return field.GetRows();
+        }
+
+        public int GetColsOfField()
+        {
+            return field.GetCols();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Battleship
             damaged = 0,
             miss = -1,
             destroyed = 1,
+            alreadyShot = 2
         }
 
         public enum ShipOrientation

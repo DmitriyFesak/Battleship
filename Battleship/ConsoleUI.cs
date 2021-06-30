@@ -6,5 +6,9 @@ namespace Battleship
 {
     class ConsoleUI : IUserInterface
     {
+        public void MakeMove()
+        {
+
+        }
     }
 }
