@@ -6,12 +6,13 @@ namespace Battleship
 {
     class Battlefield
     {
-        private const int ROWS_COUNT = 10;
-        private const int COLS_COUNT = 10;
-        private const int DESTROYERS_COUNT = 4;
-        private const int CRUISERS_COUNT = 3;
-        private const int SUBMARINES_COUNT = 2;
-        private const int BATTLESHIPS_COUNT = 1;
+        public const int ROWS_COUNT = 10;
+        public const int COLS_COUNT = 10;
+        public const int DESTROYERS_COUNT = 4;
+        public const int CRUISERS_COUNT = 3;
+        public const int SUBMARINES_COUNT = 2;
+        public const int BATTLESHIPS_COUNT = 1;
+
         private Cell[,] cells;
         private List<Ship> ships;
 
@@ -58,9 +59,21 @@ namespace Battleship
             return currentField;
         }
 
-        public bool CheckCell(int x, int y)
+        public int GetTotalShipsCount()
         {
-            return cells[y, x].TakeShot();
+            return DESTROYERS_COUNT + CRUISERS_COUNT + SUBMARINES_COUNT + BATTLESHIPS_COUNT;
+        }
+
+        public int CheckCell(int y, int x)
+        {
+            if (cells[y, x].TakeShot())
+            {
+                return cells[y, x].GetShip().DamageSegment();
+            }
+            else
+            {
+                return ((int)Enumerables.ShotResult.miss);
+            }
         }
 
         public bool PlaceShipManually(int shipId, int y, int x, int orientation)
@@ -157,9 +170,7 @@ namespace Battleship
 
         private void InitializeShips()
         {
-            int totalShipsCount = DESTROYERS_COUNT + CRUISERS_COUNT + SUBMARINES_COUNT + BATTLESHIPS_COUNT;
-
-            for (int i = 0; i < totalShipsCount; i++)
+            for (int i = 0; i < GetTotalShipsCount(); i++)
             {
                 Ship ship;
                 if (i < DESTROYERS_COUNT)

@@ -8,20 +8,19 @@ namespace Battleship
     {
         private int x;
         private int y;
-        private String result;
-        // TODO: enum
-        public Shot(int x, int y)
+        private int result;
+        public Shot(int y, int x)
         {
             this.x = x;
             this.y = y;
         }
 
-        public void SetResult(String result)
+        public void SetResult(int result)
         {
             this.result = result;
         }
 
-        public String GetResult()
+        public int GetResult()
         {
             return result;
         }
