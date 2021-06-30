@@ -63,7 +63,84 @@ namespace Battleship
             return cells[y, x].TakeShot();
         }
 
-        // TODO: placing ships methods
+        public bool PlaceShipManually(int shipId, int y, int x, int orientation)
+        {
+            if (shipId >= ships.Count || y >= ROWS_COUNT || x >= COLS_COUNT)
+            {
+                return false;
+            }
+
+            int size = GetShipSize(shipId);
+
+            List<Cell> shipSegments = new List<Cell>();
+
+            if (orientation == ((int)Enumerables.ShipOrientation.horizontal))
+            {
+                if (x + size >= COLS_COUNT)
+                {
+                    return false;
+                }
+
+                for (int i = x; i < x + size; i++)
+                {
+                    if (cells[y, i].isShipPlaced)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        shipSegments.Add(cells[y, i]);
+                    }
+                }
+            }
+            else
+            {
+                if (y + size >= ROWS_COUNT)
+                {
+                    return false;
+                }
+
+                for (int i = y; i < y + size; i++)
+                {
+                    if (cells[i, x].isShipPlaced)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        shipSegments.Add(cells[y, i]);
+                    }
+                }
+            }
+            return SaveShipLocation(shipId, size, shipSegments);
+        }
+
+        public void AutoPlaceShips()
+        {
+            Random rnd = new Random();
+            int i = 0;
+            int y, x, orientation;
+
+            while(i < ships.Count)
+            {
+                int size = GetShipSize(i);
+                orientation = rnd.Next(0, 2);
+                if (orientation == ((int)Enumerables.ShipOrientation.horizontal))
+                {
+                    y = rnd.Next(0, ROWS_COUNT);
+                    x = rnd.Next(0, COLS_COUNT - size);
+                }
+                else
+                {
+                    y = rnd.Next(0, ROWS_COUNT - size);
+                    x = rnd.Next(0, COLS_COUNT);
+                }
+                if (PlaceShipManually(i, y, x, orientation) == true)
+                {
+                    i++;
+                }
+            }
+        }
         
         private void InitializeCells()
         {
@@ -103,6 +180,43 @@ namespace Battleship
                 }
                 ships.Add(ship);
             }
+        }
+
+        private int GetShipSize (int shipId)
+        {
+            int size = 0;
+
+            if (ships[shipId].GetType() == typeof(Destroyer))
+            {
+                size = 1;
+            }
+            else if (ships[shipId].GetType() == typeof(Cruiser))
+            {
+                size = 2;
+            }
+            else if (ships[shipId].GetType() == typeof(Submarine))
+            {
+                size = 3;
+            }
+            else if (ships[shipId].GetType() == typeof(Battleship))
+            {
+                size = 4;
+            }
+            return size;
+        }
+
+        private bool SaveShipLocation(int shipId, int size, List<Cell> shipSegments)
+        {
+            if (shipSegments.Count != size)
+            {
+                return false;
+            }
+            for (int i = 0; i < size; i++)
+            {
+                shipSegments[i].PlaceShipSegment(ships[shipId]);
+            }
+            ships[shipId].SetLocation(shipSegments);
+            return true;
         }
     }
 }
