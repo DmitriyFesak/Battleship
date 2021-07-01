@@ -6,26 +6,26 @@ namespace Battleship
 {
     class Cruiser : Destroyer
     {
-        protected Cell secondSegment;
+        protected Cell _secondSegment;
 
-        public override int DamageSegment()
+        public override ShotResult DamageSegment()
         {
-            damagedSegments++;
+            _damagedSegments++;
 
-            if (damagedSegments == 1)
+            if (_damagedSegments == 1)
             {
-                return ((int)Enumerables.ShotResult.damaged);
+                return ShotResult.Damaged;
             }
             else
             {
-                return ((int)Enumerables.ShotResult.destroyed);
+                return ShotResult.Destroyed;
             }
         }
 
         public override void SetLocation(List<Cell> shipSegments)
         {
-            firstSegment = shipSegments[0];
-            secondSegment = shipSegments[1];
+            _firstSegment = shipSegments[0];
+            _secondSegment = shipSegments[1];
         }
     }
 }

@@ -13,8 +13,8 @@ namespace Battleship
         public const int SUBMARINES_COUNT = 2;
         public const int BATTLESHIPS_COUNT = 1;
 
-        private Cell[,] cells;
-        private List<Ship> ships;
+        private Cell[,] _cells;
+        private List<Ship> _ships;
 
         public Battlefield()
         {
@@ -22,40 +22,41 @@ namespace Battleship
             InitializeShips();
         }
 
-        public int [,] GetBattlefield()
+        public CellStatus [,] GetBattlefield()
         {
-            int [,] currentField = new int [ROWS_COUNT, COLS_COUNT];
-            int cellValue;
+            CellStatus[,] currentField = new CellStatus[ROWS_COUNT, COLS_COUNT];
+            CellStatus cellValue;
 
             for (int i = 0; i < ROWS_COUNT; i++)
             {
                 for (int j = 0; j < COLS_COUNT; j++)
                 {
-                    if (cells[i, j].isShot)
+                    if (_cells[i, j].isShot)
                     {
-                        if (cells[i, j].isShipPlaced)
+                        if (_cells[i, j].isShipPlaced)
                         {
-                            cellValue = ((int)Enumerables.CellStatus.hit);
+                            cellValue = CellStatus.Hit;
                         }
                         else
                         {
-                            cellValue = ((int)Enumerables.CellStatus.miss);
+                            cellValue = CellStatus.Miss;
                         }
                     }
                     else
                     {
-                        if (cells[i, j].isShipPlaced)
+                        if (_cells[i, j].isShipPlaced)
                         {
-                            cellValue = ((int)Enumerables.CellStatus.unshotShip);
+                            cellValue = CellStatus.UnshotShip;
                         }
                         else
                         {
-                            cellValue = ((int)Enumerables.CellStatus.unshot);
+                            cellValue = CellStatus.Unshot;
                         }
                     }
                     currentField[i, j] = cellValue;
                 }
             }
+
             return currentField;
         }
 
@@ -74,25 +75,25 @@ namespace Battleship
             return COLS_COUNT;
         }
 
-        public int CheckCell(int y, int x)
+        public ShotResult CheckCell(int y, int x)
         {
-            if (cells[y, x].isShot)
+            if (_cells[y, x].isShot)
             {
-                return ((int)Enumerables.ShotResult.alreadyShot);
+                return ShotResult.AlreadyShot;
             }
-            if (cells[y, x].TakeShot())
+            if (_cells[y, x].TakeShot())
             {
-                return cells[y, x].GetShip().DamageSegment();
+                return _cells[y, x].GetShip().DamageSegment();
             }
             else
             {
-                return ((int)Enumerables.ShotResult.miss);
+                return ShotResult.Miss;
             }
         }
 
         public bool PlaceShipManually(int shipId, int y, int x, int orientation)
         {
-            if (shipId >= ships.Count || y >= ROWS_COUNT || x >= COLS_COUNT)
+            if (shipId >= _ships.Count || y >= ROWS_COUNT || x >= COLS_COUNT)
             {
                 return false;
             }
@@ -101,7 +102,7 @@ namespace Battleship
 
             List<Cell> shipSegments = new List<Cell>();
 
-            if (orientation == ((int)Enumerables.ShipOrientation.horizontal))
+            if (orientation == ((int)ShipOrientation.Horizontal))
             {
                 if (x + size >= COLS_COUNT)
                 {
@@ -110,13 +111,13 @@ namespace Battleship
 
                 for (int i = x; i < x + size; i++)
                 {
-                    if (cells[y, i].isShipPlaced)
+                    if (_cells[y, i].isShipPlaced)
                     {
                         return false;
                     }
                     else
                     {
-                        shipSegments.Add(cells[y, i]);
+                        shipSegments.Add(_cells[y, i]);
                     }
                 }
             }
@@ -129,16 +130,17 @@ namespace Battleship
 
                 for (int i = y; i < y + size; i++)
                 {
-                    if (cells[i, x].isShipPlaced)
+                    if (_cells[i, x].isShipPlaced)
                     {
                         return false;
                     }
                     else
                     {
-                        shipSegments.Add(cells[y, i]);
+                        shipSegments.Add(_cells[y, i]);
                     }
                 }
             }
+
             return SaveShipLocation(shipId, size, shipSegments);
         }
 
@@ -148,11 +150,11 @@ namespace Battleship
             int i = 0;
             int y, x, orientation;
 
-            while(i < ships.Count)
+            while(i < _ships.Count)
             {
                 int size = GetShipSize(i);
                 orientation = rnd.Next(0, 2);
-                if (orientation == ((int)Enumerables.ShipOrientation.horizontal))
+                if (orientation == ((int)ShipOrientation.Horizontal))
                 {
                     y = rnd.Next(0, ROWS_COUNT);
                     x = rnd.Next(0, COLS_COUNT - size);
@@ -171,19 +173,21 @@ namespace Battleship
         
         private void InitializeCells()
         {
-            cells = new Cell[ROWS_COUNT, COLS_COUNT];
+            _cells = new Cell[ROWS_COUNT, COLS_COUNT];
 
             for (int i = 0; i < ROWS_COUNT; i++)
             {
                 for (int j = 0; j < COLS_COUNT; j++)
                 {
-                    cells[i, j] = new Cell(i, j);
+                    _cells[i, j] = new Cell(i, j);
                 }
             }
         }
 
         private void InitializeShips()
         {
+            _ships = new List<Ship>();
+
             for (int i = 0; i < GetTotalShipsCount(); i++)
             {
                 Ship ship;
@@ -203,7 +207,7 @@ namespace Battleship
                 {
                     ship = new Battleship();
                 }
-                ships.Add(ship);
+                _ships.Add(ship);
             }
         }
 
@@ -211,22 +215,23 @@ namespace Battleship
         {
             int size = 0;
 
-            if (ships[shipId].GetType() == typeof(Destroyer))
+            if (_ships[shipId].GetType() == typeof(Destroyer))
             {
                 size = 1;
             }
-            else if (ships[shipId].GetType() == typeof(Cruiser))
+            else if (_ships[shipId].GetType() == typeof(Cruiser))
             {
                 size = 2;
             }
-            else if (ships[shipId].GetType() == typeof(Submarine))
+            else if (_ships[shipId].GetType() == typeof(Submarine))
             {
                 size = 3;
             }
-            else if (ships[shipId].GetType() == typeof(Battleship))
+            else if (_ships[shipId].GetType() == typeof(Battleship))
             {
                 size = 4;
             }
+
             return size;
         }
 
@@ -238,9 +243,10 @@ namespace Battleship
             }
             for (int i = 0; i < size; i++)
             {
-                shipSegments[i].PlaceShipSegment(ships[shipId]);
+                shipSegments[i].PlaceShipSegment(_ships[shipId]);
             }
-            ships[shipId].SetLocation(shipSegments);
+            _ships[shipId].SetLocation(shipSegments);
+
             return true;
         }
     }

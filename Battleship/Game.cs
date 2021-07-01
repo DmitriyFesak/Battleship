@@ -6,71 +6,75 @@ namespace Battleship
 {
     class Game
     {
-        private Player[] player;
-        private int turn = 0;
-        private IUserInterface userInterface;
+        private Player[] _player;
+        private int _turn = 0;
+        private IUserInterface _userInterface;
 
-        public Game()
+        public Game(IUserInterface userInterface)
         {
-            player = new Player[2];
-            player[0] = new Player("player1");
-            player[1] = new Player("player2");
-            userInterface = new ConsoleUI();
+            _player = new Player[2];
+            _player[0] = new Player("player1");
+            _player[1] = new Player("player2");
+            _userInterface = userInterface;
         }
 
         public void SetPlayerName(int playerId, string name)
         {
-            player[playerId].SetName(name);
+            _player[playerId].SetName(name);
         }
 
         public string GetPlayerName(int playerId)
         {
-            return player[playerId].GetName();
+            return _player[playerId].GetName();
         }
 
         public string GetLastShot()
-        {
+        { // TODO: String to ui
             int playerId = ChoosePlayer();
-            int res = player[playerId].GetLastShotResult();
-            int x = player[playerId].GetLastShotX();
-            int y = player[playerId].GetLastShotY();
+            ShotResult res = _player[playerId].GetLastShotResult();
+            int x = _player[playerId].GetLastShotX();
+            int y = _player[playerId].GetLastShotY();
 
             string lastShot;
-            if (res == ((int)Enumerables.ShotResult.miss))
+
+            if (res == ShotResult.Miss)
             {
-                lastShot = Enumerables.ShotResult.miss.ToString();
+                lastShot = ShotResult.Miss.ToString();
             }
-            else if (res == ((int)Enumerables.ShotResult.damaged))
+            else if (res == ((int)ShotResult.Damaged))
             {
-                lastShot = Enumerables.ShotResult.damaged.ToString();
+                lastShot = ShotResult.Damaged.ToString();
             }
             else
             {
-                lastShot = Enumerables.ShotResult.destroyed.ToString();
+                lastShot = ShotResult.Destroyed.ToString();
             }
+
             return lastShot + " " + y + " " + x;
         }
 
         public bool PlaceShipManually(int playerId, int shipId, int y, int x, int orientation)
         {
-            return player[playerId].PlaceShipManually(shipId, y, x, orientation);
+            return _player[playerId].PlaceShipManually(shipId, y, x, orientation);
         }
 
         public void AutoPlaceShips(int playerId)
         {
-            player[playerId].AutoPlaceShip();
+            _player[playerId].AutoPlaceShip();
         }
 
-        public int[,] GetCurrentField()
+        public CellStatus[,] GetCurrentField()
         {
             int playerId = ChoosePlayer();
-            return player[playerId].GetCurrentField();
+
+            return _player[playerId].GetCurrentField();
         }
 
-        public int[,] GetEnemyField()
+        public CellStatus[,] GetEnemyField()
         {
             int playerId = ChoosePlayer();
             int enemyId;
+
             if (playerId == 0)
             {
                 enemyId = 1;
@@ -79,48 +83,53 @@ namespace Battleship
             {
                 enemyId = 0;
             }
-            return player[playerId].GetEnemyField(player[enemyId]);
+
+            return _player[playerId].GetEnemyField(_player[enemyId]);
         }
 
-        public void StartGame()
+        public void Start()
         {
             AutoPlaceShips(1);
 
             bool gameFinished = false;
+
             while (!gameFinished)
             {
-                turn++;
+                _turn++;
                 if (ChoosePlayer() == 0)
                 {
-                    userInterface.MakeMove();
-                    gameFinished = checkForVictory(player[0]);
+                    _userInterface.MakeMove();
+                    gameFinished = checkForVictory(_player[0]);
                 }
                 else
                 {
                     NextTurn();
-                    gameFinished = checkForVictory(player[1]);
+                    gameFinished = checkForVictory(_player[1]);
                 }
             }
         }
 
-        public int NextTurn(int y, int x)
+        public ShotResult NextTurn(int y, int x)
         {
-            Player currentPlayer = player[ChoosePlayer()];
+            Player currentPlayer = _player[ChoosePlayer()];
+
             if (currentPlayer.MakeShot(y, x))
             {
                 CheckShotResult(currentPlayer);
+
                 return currentPlayer.GetLastShotResult();
             }
             else
             {
-                turn--;
-                return ((int)Enumerables.ShotResult.alreadyShot);
+                _turn--;
+
+                return ShotResult.AlreadyShot;
             }
         }
 
-        public int NextTurn()
+        public ShotResult NextTurn()
         {
-            Player currentPlayer = player[ChoosePlayer()];
+            Player currentPlayer = _player[ChoosePlayer()];
             Random rnd = new Random();
             int y = rnd.Next(0, currentPlayer.GetRowsOfField());
             int x = rnd.Next(0, currentPlayer.GetColsOfField());
@@ -128,12 +137,14 @@ namespace Battleship
             if (currentPlayer.MakeShot(y, x))
             {
                 CheckShotResult(currentPlayer);
+
                 return currentPlayer.GetLastShotResult();
             }
             else
             {
-                turn--;
-                return ((int)Enumerables.ShotResult.alreadyShot);
+                _turn--;
+
+                return ShotResult.AlreadyShot;
             }
         }
 
@@ -152,7 +163,8 @@ namespace Battleship
         private int ChoosePlayer()
         {
             int playerId;
-            if (turn % 2 == 1)
+
+            if (_turn % 2 == 1)
             {
                 playerId = 0;
             }
@@ -160,15 +172,17 @@ namespace Battleship
             {
                 playerId = 1;
             }
+
             return playerId;
         }
 
         private void CheckShotResult(Player currentPlayer)
         {
-            int shotResult = currentPlayer.GetLastShotResult();
-            if (shotResult == ((int)Enumerables.ShotResult.damaged) || shotResult == ((int)Enumerables.ShotResult.destroyed))
+            ShotResult shotResult = currentPlayer.GetLastShotResult();
+
+            if (shotResult == ShotResult.Damaged || shotResult == ShotResult.Destroyed)
             {
-                turn--;
+                _turn--;
             }
         }
     }

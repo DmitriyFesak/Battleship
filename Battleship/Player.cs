@@ -6,104 +6,108 @@ namespace Battleship
 {
     class Player
     {
-        string name;
-        Battlefield field;
-        int shipsLeft;
-        List<Shot> shotsHistory;
+        private string _name;
+        private Battlefield _field;
+        private int _shipsLeft;
+        private List<Shot> _shotsHistory;
 
         public Player(string name)
         {
             SetName(name);
-            field = new Battlefield();
-            shipsLeft = field.GetTotalShipsCount();
-            shotsHistory = new List<Shot>();
+            _field = new Battlefield();
+            _shipsLeft = _field.GetTotalShipsCount();
+            _shotsHistory = new List<Shot>();
         }
 
         public void SetName(string name)
         {
-            this.name = name;
+            _name = name;
         }
 
         public string GetName()
         {
-            return name;
+            return _name;
         }
 
-        public int GetLastShotResult()
+        public ShotResult GetLastShotResult()
         {
-            return shotsHistory[shotsHistory.Count - 1].GetResult();
+            return _shotsHistory[_shotsHistory.Count - 1].GetResult();
         }
 
         public int GetLastShotX()
         {
-            return shotsHistory[shotsHistory.Count - 1].GetX();
+            return _shotsHistory[_shotsHistory.Count - 1].GetX();
         }
 
         public int GetLastShotY()
         {
-            return shotsHistory[shotsHistory.Count - 1].GetY();
+            return _shotsHistory[_shotsHistory.Count - 1].GetY();
         }
 
         public bool PlaceShipManually(int shipId, int y, int x, int orientation)
         {
-            return field.PlaceShipManually(shipId, y, x, orientation);
+            return _field.PlaceShipManually(shipId, y, x, orientation);
         }
 
         public void AutoPlaceShip()
         {
-            field.AutoPlaceShips();
+            _field.AutoPlaceShips();
         }
 
-        public int[,] GetCurrentField()
+        public CellStatus[,] GetCurrentField()
         {
-            return field.GetBattlefield();
+            return _field.GetBattlefield();
         }
 
-        public int[,] GetEnemyField(Player enemy)
+        public CellStatus[,] GetEnemyField(Player enemy)
         {
-            int[,] enemyField = enemy.GetCurrentField();
+            CellStatus[,] enemyField = enemy.GetCurrentField();
+
             for (int i = 0; i < enemyField.GetLength(0); i++)
             {
                 for (int j = 0; j < enemyField.GetLength(1); j++)
                 {
-                    if (enemyField[i, j] == ((int)Enumerables.CellStatus.unshotShip))
+                    if (enemyField[i, j] == CellStatus.UnshotShip)
                     {
-                        enemyField[i, j] = ((int)Enumerables.CellStatus.unshot);
+                        enemyField[i, j] = CellStatus.Unshot;
                     }
                 }
             }
+
             return enemyField;
         }
 
         public bool MakeShot(int y, int x)
         {
             Shot shot = new Shot(y, x);
-            shot.SetResult(field.CheckCell(y, x));
-            if (shot.GetResult() == ((int)Enumerables.ShotResult.destroyed))
+            shot.SetResult(_field.CheckCell(y, x));
+
+            if (shot.GetResult() == ShotResult.Destroyed)
             {
-                shipsLeft--;
+                _shipsLeft--;
             }
-            else if (shot.GetResult() == ((int)Enumerables.ShotResult.alreadyShot))
+            else if (shot.GetResult() == ShotResult.AlreadyShot)
             {
                 return false;
             }
-            shotsHistory.Add(shot);
+            _shotsHistory.Add(shot);
+
             return true;
         }
 
         public int GetAmountOfShips()
         {
-            return shipsLeft;
+            return _shipsLeft;
         }
 
         public int GetRowsOfField()
         {
-            return field.GetRows();
+            return _field.GetRows();
         }
 
         public int GetColsOfField()
         {
-            return field.GetCols();
+            return _field.GetCols();
         }
     }
 }

@@ -6,33 +6,33 @@ namespace Battleship
 {
     class Shot
     {
-        private int x;
-        private int y;
-        private int result;
+        private int _x;
+        private int _y;
+        private ShotResult _result;
         public Shot(int y, int x)
         {
-            this.x = x;
-            this.y = y;
+            _x = x;
+            _y = y;
         }
 
-        public void SetResult(int result)
+        public void SetResult(ShotResult result)
         {
-            this.result = result;
+            _result = result;
         }
 
-        public int GetResult()
+        public ShotResult GetResult()
         {
-            return result;
+            return _result;
         }
 
         public int GetX()
         {
-            return x;
+            return _x;
         }
 
         public int GetY()
         {
-            return y;
+            return _y;
         }
     }
 }

@@ -6,17 +6,18 @@ namespace Battleship
 {
     class Destroyer : Ship
     {
-        protected Cell firstSegment;
+        protected Cell _firstSegment;
 
-        public override int DamageSegment()
+        public override ShotResult DamageSegment()
         {
-            damagedSegments++;
-            return ((int)Enumerables.ShotResult.destroyed);
+            _damagedSegments++;
+
+            return ShotResult.Destroyed;
         }
 
         public override void SetLocation(List<Cell> shipSegments)
         {
-            firstSegment = shipSegments[0];
+            _firstSegment = shipSegments[0];
         }
     }
 }
