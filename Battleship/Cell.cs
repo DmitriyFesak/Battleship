@@ -8,8 +8,8 @@ namespace Battleship
     {
         private int _x;
         private int _y;
-        public bool isShot { get { return isShot; } private set { } }
-        public bool isShipPlaced { get { return isShipPlaced; } private set { } }
+        public bool isShot { get; set; }
+        public bool isShipPlaced { get; set; }
         private Ship _shipPlaced;
 
         public Cell(int x, int y)

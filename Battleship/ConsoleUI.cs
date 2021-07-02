@@ -6,12 +6,41 @@ namespace Battleship
 {
     class ConsoleUI : IUserInterface
     {
-        private static ConsoleUI consoleUI = new ConsoleUI();
+        private static ConsoleUI _consoleUI = new ConsoleUI();
+        private static bool _isStarted = false;
 
         public static void Main()
         {
-            Game game = new Game(consoleUI);
-            int choice = consoleUI.ShowPreStartUI();
+            Game game = new Game(_consoleUI);
+            string winner;
+
+            while (!_isStarted)
+            {
+                int choice = _consoleUI.ShowPreStartUI();
+                
+                switch(choice)
+                {
+                    case 1:
+                        _consoleUI.SetPlayerName(0, game);
+                        break;
+                    case 2:
+                        _consoleUI.SetPlayerName(1, game);
+                        break;
+                    case 3:
+                        _isStarted = true;
+                        break;
+                    case 4:
+                        _isStarted = true;
+                        _consoleUI.AutoLocation(game);
+                        break;
+                    case 0:
+                        Environment.Exit(0);
+                        break;
+                }
+            }
+
+            winner = _consoleUI.StartGame(game);
+            Console.WriteLine("Congratulations, " + winner + "! You won!");
         }
 
         public int ShowPreStartUI()
@@ -36,14 +65,31 @@ namespace Battleship
 
             return choice;
         }
-        public void AutoLocation()
+        public void AutoLocation(Game game)
         {
-            throw new NotImplementedException();
+            game.AutoPlaceShips(0);
         }
 
-        public void MakeMove()
+        public ShotResult MakeMove(Game game)
         {
+            bool correctInput = false;
+            int x, y;
 
+            Console.WriteLine("Your turn!");
+
+            do
+            {
+                Console.Write("Input Y:");
+                correctInput = Int32.TryParse(Console.ReadLine(), out y);
+            } while (!correctInput || y < 0 || y >= game.GetRows());
+
+            do
+            {
+                Console.Write("Input X:");
+                correctInput = Int32.TryParse(Console.ReadLine(), out x);
+            } while (!correctInput || x < 0 || x >= game.GetCols());
+
+            return game.NextTurn(y, x);
         }
 
         public void ManualLocation()
@@ -51,14 +97,94 @@ namespace Battleship
             throw new NotImplementedException();
         }
 
-        public void SetPlayerName()
+        public void SetPlayerName(int playerId, Game game)
         {
-            throw new NotImplementedException();
+            if (playerId == 0)
+            {
+                Console.Write("Input your new name: ");
+                game.SetPlayerName(0, Console.ReadLine());
+            }
+            else
+            {
+                Console.Write("Input your enemy's new name: ");
+                game.SetPlayerName(1, Console.ReadLine());
+            }
         }
 
-        public void UpdateBattlefield()
+        public void UpdateBattlefield(Game game)
         {
-            throw new NotImplementedException();
+            const string ship = "*";
+            const string miss = "-";
+            const string hit = "x";
+            const string unshot = " ";
+
+            string[,] playerFieldToShow = new string[game.GetRows(), game.GetCols()];
+            string[,] enemyFieldToShow = new string[game.GetRows(), game.GetCols()];
+
+            CellStatus[,] playerField = game.GetCurrentField();
+            CellStatus[,] enemyField = game.GetEnemyField();
+
+            for (int i = 0; i < game.GetRows(); i++)
+            {
+                for (int j = 0; j < game.GetCols(); j++)
+                {
+                    if (playerField[i, j] == CellStatus.Unshot)
+                    {
+                        playerFieldToShow[i, j] = unshot;
+                    }
+                    else if (playerField[i, j] == CellStatus.Miss)
+                    {
+                        playerFieldToShow[i, j] = miss;
+                    }
+                    else if (playerField[i, j] == CellStatus.Hit)
+                    {
+                        playerFieldToShow[i, j] = hit;
+                    }
+                    else
+                    {
+                        playerFieldToShow[i, j] = ship;
+                    }
+
+                    if (enemyField[i, j] == CellStatus.Unshot)
+                    {
+                        enemyFieldToShow[i, j] = unshot;
+                    }
+                    else if (enemyField[i, j] == CellStatus.Miss)
+                    {
+                        enemyFieldToShow[i, j] = miss;
+                    }
+                    else
+                    {
+                        enemyFieldToShow[i, j] = hit;
+                    }
+                }
+            }
+            
+            PrintBattlefield(playerFieldToShow);
+            Console.WriteLine("---------------------------------");
+            PrintBattlefield(enemyFieldToShow);
+        }
+
+        public string StartGame(Game game)
+        {
+            return game.Start();
+        }
+
+        private void PrintBattlefield(string [,] battlefield)
+        {
+            Console.WriteLine("———————————————————————");
+            Console.WriteLine("| |0|1|2|3|4|5|6|7|8|9|");
+            Console.WriteLine("———————————————————————");
+            for (int i = 0; i < battlefield.GetLength(0); i++)
+            {
+                Console.Write("|" + i);
+                for (int j = 0; j < battlefield.GetLength(1); j++)
+                {
+                    Console.Write("|" + battlefield[i, j]);
+                }
+                Console.Write("|\n");
+            }
+            Console.WriteLine("———————————————————————");
         }
     }
 }

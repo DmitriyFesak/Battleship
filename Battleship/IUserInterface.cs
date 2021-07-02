@@ -7,10 +7,11 @@ namespace Battleship
     interface IUserInterface
     {
         // TODO: input output parameters
-        public void MakeMove();
-        public void UpdateBattlefield();
-        public void SetPlayerName();
+        public ShotResult MakeMove(Game game);
+        public void UpdateBattlefield(Game game);
+        public void SetPlayerName(int playerId, Game game);
         public void ManualLocation();
-        public void AutoLocation();
+        public void AutoLocation(Game game);
+        public string StartGame(Game game);
     }
 }

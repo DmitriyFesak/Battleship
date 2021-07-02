@@ -29,19 +29,9 @@ namespace Battleship
             return _name;
         }
 
-        public ShotResult GetLastShotResult()
+        public Shot GetLastShot()
         {
-            return _shotsHistory[_shotsHistory.Count - 1].GetResult();
-        }
-
-        public int GetLastShotX()
-        {
-            return _shotsHistory[_shotsHistory.Count - 1].GetX();
-        }
-
-        public int GetLastShotY()
-        {
-            return _shotsHistory[_shotsHistory.Count - 1].GetY();
+            return _shotsHistory[_shotsHistory.Count - 1];
         }
 
         public bool PlaceShipManually(int shipId, int y, int x, int orientation)
@@ -59,28 +49,10 @@ namespace Battleship
             return _field.GetBattlefield();
         }
 
-        public CellStatus[,] GetEnemyField(Player enemy)
-        {
-            CellStatus[,] enemyField = enemy.GetCurrentField();
-
-            for (int i = 0; i < enemyField.GetLength(0); i++)
-            {
-                for (int j = 0; j < enemyField.GetLength(1); j++)
-                {
-                    if (enemyField[i, j] == CellStatus.UnshotShip)
-                    {
-                        enemyField[i, j] = CellStatus.Unshot;
-                    }
-                }
-            }
-
-            return enemyField;
-        }
-
-        public bool MakeShot(int y, int x)
+        public bool MakeShot(int y, int x, Player enemy)
         {
             Shot shot = new Shot(y, x);
-            shot.SetResult(_field.CheckCell(y, x));
+            shot.SetResult(enemy._field.CheckCell(y, x));
 
             if (shot.GetResult() == ShotResult.Destroyed)
             {
