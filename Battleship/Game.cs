@@ -86,8 +86,14 @@ namespace Battleship
                     do
                     {
                         shotRes = _userInterface.MakeMove(this);
+
+                        if (shotRes == ShotResult.AlreadyShot)
+                        {
+                            _userInterface.ShowAlreadyShotMsg();
+                        }
                     } while (shotRes == ShotResult.AlreadyShot);
 
+                    _userInterface.PrintResult(_player[0].GetLastShot(), _player[0].GetName());
                     gameFinished = checkForVictory(_player[0]);
                 }
                 else
@@ -97,6 +103,7 @@ namespace Battleship
                         shotRes = NextTurn();
                     } while (shotRes == ShotResult.AlreadyShot);
 
+                    _userInterface.PrintResult(_player[1].GetLastShot(), _player[1].GetName());
                     gameFinished = checkForVictory(_player[1]);
                 }
                 _userInterface.UpdateBattlefield(this);
@@ -124,8 +131,6 @@ namespace Battleship
             }
             else
             {
-                _turn--;
-
                 return ShotResult.AlreadyShot;
             }
         }
@@ -145,8 +150,6 @@ namespace Battleship
             }
             else
             {
-                _turn--;
-
                 return ShotResult.AlreadyShot;
             }
         }

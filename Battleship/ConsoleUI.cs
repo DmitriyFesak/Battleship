@@ -73,6 +73,7 @@ namespace Battleship
         public ShotResult MakeMove(Game game)
         {
             bool correctInput = false;
+            ShotResult result;
             int x, y;
 
             Console.WriteLine("Your turn!");
@@ -159,9 +160,10 @@ namespace Battleship
                     }
                 }
             }
-            
+
+            Console.WriteLine("Your field");
             PrintBattlefield(playerFieldToShow);
-            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Enemy field");
             PrintBattlefield(enemyFieldToShow);
         }
 
@@ -185,6 +187,28 @@ namespace Battleship
                 Console.Write("|\n");
             }
             Console.WriteLine("———————————————————————");
+        }
+
+        public void PrintResult(Shot shot, string name)
+        {
+            Console.WriteLine(name + " is shooting at coordinates: Y = " + shot.GetY() + "; X = " + shot.GetX());
+            if (shot.GetResult() == ShotResult.Miss)
+            {
+                Console.WriteLine("Miss!");
+            }
+            else if (shot.GetResult() == ShotResult.Destroyed)
+            {
+                Console.WriteLine("Ship was destroyed!");
+            }
+            else if (shot.GetResult() == ShotResult.Damaged)
+            {
+                Console.WriteLine("Ship was damaged!");
+            }
+        }
+
+        public void ShowAlreadyShotMsg()
+        {
+            Console.WriteLine("These coordinates have already been shot!");
         }
     }
 }

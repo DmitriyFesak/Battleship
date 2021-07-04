@@ -15,6 +15,7 @@ namespace Battleship
 
         private Cell[,] _cells;
         private List<Ship> _ships;
+        private List<Cell> _blockedCells;
 
         public Battlefield()
         {
@@ -101,6 +102,7 @@ namespace Battleship
             int size = GetShipSize(shipId);
 
             List<Cell> shipSegments = new List<Cell>();
+            List<Cell> blockedCells = new List<Cell>();
 
             if (orientation == ((int)ShipOrientation.Horizontal))
             {
@@ -111,13 +113,14 @@ namespace Battleship
 
                 for (int i = x; i < x + size; i++)
                 {
-                    if (_cells[y, i].isShipPlaced)
+                    if (_cells[y, i].isShipPlaced || _blockedCells.Contains(_cells[y, i]))
                     {
                         return false;
                     }
                     else
                     {
                         shipSegments.Add(_cells[y, i]);
+                        BlockCells(y, i, blockedCells);
                     }
                 }
             }
@@ -130,18 +133,19 @@ namespace Battleship
 
                 for (int i = y; i < y + size; i++)
                 {
-                    if (_cells[i, x].isShipPlaced)
+                    if (_cells[i, x].isShipPlaced || _blockedCells.Contains(_cells[i, x]))
                     {
                         return false;
                     }
                     else
                     {
-                        shipSegments.Add(_cells[y, i]);
+                        shipSegments.Add(_cells[i, x]);
+                        BlockCells(i, x, blockedCells);
                     }
                 }
             }
 
-            return SaveShipLocation(shipId, size, shipSegments);
+            return SaveShipLocation(shipId, size, shipSegments, blockedCells);
         }
 
         public void AutoPlaceShips()
@@ -170,10 +174,31 @@ namespace Battleship
                 }
             }
         }
+
+        private void BlockCells(int y, int x, List<Cell> blockedCells)
+        {
+            if (y != 0)
+            {
+                blockedCells.Add(_cells[y - 1, x]);
+            }
+            if (y != 9)
+            {
+                blockedCells.Add(_cells[y + 1, x]);
+            }
+            if (x != 0)
+            {
+                blockedCells.Add(_cells[y, x - 1]);
+            }
+            if (x != 9)
+            {
+                blockedCells.Add(_cells[y, x + 1]);
+            }
+        }
         
         private void InitializeCells()
         {
             _cells = new Cell[ROWS_COUNT, COLS_COUNT];
+            _blockedCells = new List<Cell>();
 
             for (int i = 0; i < ROWS_COUNT; i++)
             {
@@ -235,7 +260,7 @@ namespace Battleship
             return size;
         }
 
-        private bool SaveShipLocation(int shipId, int size, List<Cell> shipSegments)
+        private bool SaveShipLocation(int shipId, int size, List<Cell> shipSegments, List<Cell> blockedCells)
         {
             if (shipSegments.Count != size)
             {
@@ -246,6 +271,14 @@ namespace Battleship
                 shipSegments[i].PlaceShipSegment(_ships[shipId]);
             }
             _ships[shipId].SetLocation(shipSegments);
+            
+            for (int i = 0; i < blockedCells.Count; i++)
+            {
+                if (!_blockedCells.Contains(blockedCells[i]))
+                {
+                    _blockedCells.Add(blockedCells[i]);
+                }
+            }
 
             return true;
         }
