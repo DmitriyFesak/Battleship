@@ -233,19 +233,31 @@ namespace Battleship
 
                 if (lastShot.GetY() != 0)
                 {
-                    _possibleShots.Add(new Shot(lastShot.GetY() - 1, lastShot.GetX()));
+                    if (GetCurrentField()[lastShot.GetY() - 1, lastShot.GetX()] != CellStatus.Miss)
+                    {
+                        _possibleShots.Add(new Shot(lastShot.GetY() - 1, lastShot.GetX()));
+                    }
                 }
                 if (lastShot.GetY() != GetRows() - 1)
                 {
-                    _possibleShots.Add(new Shot(lastShot.GetY() + 1, lastShot.GetX()));
+                    if (GetCurrentField()[lastShot.GetY() + 1, lastShot.GetX()] != CellStatus.Miss)
+                    {
+                        _possibleShots.Add(new Shot(lastShot.GetY() + 1, lastShot.GetX()));
+                    }
                 }
                 if (lastShot.GetX() != 0)
                 {
-                    _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() - 1));
+                    if (GetCurrentField()[lastShot.GetY(), lastShot.GetX() - 1] != CellStatus.Miss)
+                    {
+                        _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() - 1));
+                    }
                 }
                 if (lastShot.GetX() != GetCols() - 1)
                 {
-                    _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() + 1));
+                    if (GetCurrentField()[lastShot.GetY(), lastShot.GetX() + 1] != CellStatus.Miss)
+                    {
+                        _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() + 1));
+                    }
                 }
 
                 nextShot = _possibleShots[_possibleShots.Count - 1];
@@ -254,19 +266,31 @@ namespace Battleship
             {
                 if (_firstHit.GetY() < lastShot.GetY() && lastShot.GetY() != GetRows() - 1)
                 {
-                    _possibleShots.Add(new Shot(lastShot.GetY() + 1, lastShot.GetX()));
+                    if (GetCurrentField()[lastShot.GetY() + 1, lastShot.GetX()] != CellStatus.Miss)
+                    {
+                        _possibleShots.Add(new Shot(lastShot.GetY() + 1, lastShot.GetX()));
+                    }
                 }
                 else if (_firstHit.GetY() > lastShot.GetY() && lastShot.GetY() != 0)
                 {
-                    _possibleShots.Add(new Shot(lastShot.GetY() - 1, lastShot.GetX()));
+                    if (GetCurrentField()[lastShot.GetY() - 1, lastShot.GetX()] != CellStatus.Miss)
+                    {
+                        _possibleShots.Add(new Shot(lastShot.GetY() - 1, lastShot.GetX()));
+                    }
                 }
                 else if (_firstHit.GetX() < lastShot.GetX() && lastShot.GetX() != GetCols() - 1)
                 {
-                    _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() + 1));
+                    if (GetCurrentField()[lastShot.GetY(), lastShot.GetX() + 1] != CellStatus.Miss)
+                    {
+                        _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() + 1));
+                    }
                 }
                 else if (_firstHit.GetX() > lastShot.GetX() && lastShot.GetX() != 0)
                 {
-                    _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() - 1));
+                    if (GetCurrentField()[lastShot.GetY(), lastShot.GetX() - 1] != CellStatus.Miss)
+                    {
+                        _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() - 1));
+                    }
                 }
 
                 nextShot = _possibleShots[_possibleShots.Count - 1];
