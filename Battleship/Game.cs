@@ -6,53 +6,58 @@ namespace Battleship
 {
     class Game
     {
-        private Player[] _player;
+        private Player[] _players;
         private int _turn = 0;
         private IUserInterface _userInterface;
 
+        private bool _botFinishingShip = false;
+        private List<Shot> _possibleShots;
+        private Shot _firstHit;
+        private Shot nextShot;
+
         public Game(IUserInterface userInterface)
         {
-            _player = new Player[2];
-            _player[0] = new Player("player1");
-            _player[1] = new Player("player2");
+            _players = new Player[2];
+            _players[0] = new Player("player1");
+            _players[1] = new Player("player2");
             _userInterface = userInterface;
         }
 
         public void SetPlayerName(int playerId, string name)
         {
-            _player[playerId].SetName(name);
+            _players[playerId].SetName(name);
         }
 
         public string GetPlayerName(int playerId)
         {
-            return _player[playerId].GetName();
+            return _players[playerId].GetName();
         }
 
         public Shot GetLastShot()
         { 
             int playerId = ChoosePlayer();
 
-            return _player[playerId].GetLastShot();
+            return _players[playerId].GetLastShot();
         }
 
         public bool PlaceShipManually(int playerId, int shipId, int y, int x, int orientation)
         {
-            return _player[playerId].PlaceShipManually(shipId, y, x, orientation);
+            return _players[playerId].PlaceShipManually(shipId, y, x, orientation);
         }
 
         public void AutoPlaceShips(int playerId)
         {
-            _player[playerId].AutoPlaceShip();
+            _players[playerId].AutoPlaceShip();
         }
 
         public CellStatus[,] GetCurrentField()
         {
-            return _player[0].GetCurrentField();
+            return _players[0].GetCurrentField();
         }
 
         public CellStatus[,] GetEnemyField()
         {
-            CellStatus[,] enemyField = _player[1].GetCurrentField();
+            CellStatus[,] enemyField = _players[1].GetCurrentField();
 
             for (int i = 0; i < enemyField.GetLength(0); i++)
             {
@@ -93,8 +98,8 @@ namespace Battleship
                         }
                     } while (shotRes == ShotResult.AlreadyShot);
 
-                    _userInterface.PrintResult(_player[0].GetLastShot(), _player[0].GetName());
-                    gameFinished = checkForVictory(_player[0]);
+                    _userInterface.PrintResult(_players[0].GetLastShot(), _players[0].GetName());
+                    gameFinished = checkForVictory(_players[0]);
                 }
                 else
                 {
@@ -103,27 +108,27 @@ namespace Battleship
                         shotRes = NextTurn();
                     } while (shotRes == ShotResult.AlreadyShot);
 
-                    _userInterface.PrintResult(_player[1].GetLastShot(), _player[1].GetName());
-                    gameFinished = checkForVictory(_player[1]);
+                    _userInterface.PrintResult(_players[1].GetLastShot(), _players[1].GetName());
+                    gameFinished = checkForVictory(_players[1]);
                 }
                 _userInterface.UpdateBattlefield(this);
             }
 
-            if (checkForVictory(_player[0]))
+            if (checkForVictory(_players[0]))
             {
-                return _player[0].GetName();
+                return _players[0].GetName();
             }
             else
             {
-                return _player[1].GetName();
+                return _players[1].GetName();
             }
         }
 
         public ShotResult NextTurn(int y, int x)
         {
-            Player currentPlayer = _player[ChoosePlayer()];
+            Player currentPlayer = _players[ChoosePlayer()];
 
-            if (currentPlayer.MakeShot(y, x, _player[1]))
+            if (currentPlayer.MakeShot(y, x, _players[1]))
             {
                 CheckShotResult(currentPlayer);
 
@@ -137,20 +142,164 @@ namespace Battleship
 
         public ShotResult NextTurn()
         {
-            Player currentPlayer = _player[ChoosePlayer()];
-            Random rnd = new Random();
-            int y = rnd.Next(0, currentPlayer.GetRowsOfField());
-            int x = rnd.Next(0, currentPlayer.GetColsOfField());
+            Player currentPlayer = _players[ChoosePlayer()];
+            int y, x;
 
-            if (currentPlayer.MakeShot(y, x, _player[0]))
+            if (_botFinishingShip)
+            {
+                y = nextShot.GetY();
+                x = nextShot.GetX();
+            }
+            else
+            {
+                Shot preparedShot = GetOptimalShotCoords();
+                y = preparedShot.GetY();
+                x = preparedShot.GetX();
+            }
+
+            if (currentPlayer.MakeShot(y, x, _players[0]))
             {
                 CheckShotResult(currentPlayer);
+
+                FinishingDamagedShip();
 
                 return currentPlayer.GetLastShot().GetResult();
             }
             else
             {
                 return ShotResult.AlreadyShot;
+            }
+        }
+
+        private Shot GetOptimalShotCoords()
+        {
+            Random rnd = new Random();
+
+            int y, x;
+
+            bool isOptimalShot;
+
+            do
+            {
+                isOptimalShot = true;
+
+                y = rnd.Next(0, GetRows());
+                x = rnd.Next(0, GetCols());
+
+                CellStatus[,] field = GetCurrentField();
+
+                if (y != 0)
+                {
+                    if (field[y - 1, x] == CellStatus.Hit)
+                    {
+                        isOptimalShot = false;
+                    }
+                }
+                if (y != GetRows() - 1)
+                {
+                    if (field[y + 1, x] == CellStatus.Hit)
+                    {
+                        isOptimalShot = false;
+                    }
+                }
+                if (x != 0)
+                {
+                    if (field[y, x - 1] == CellStatus.Hit)
+                    {
+                        isOptimalShot = false;
+                    }
+                }
+                if (x != GetCols() - 1)
+                {
+                    if (field[y, x + 1] == CellStatus.Hit)
+                    {
+                        isOptimalShot = false;
+                    }
+                }
+            } while (!isOptimalShot);
+
+            return new Shot(y, x);
+        }
+
+        private void FinishingDamagedShip()
+        {
+            Shot lastShot = _players[1].GetLastShot();
+
+            if (lastShot.GetResult() == ShotResult.Damaged && _botFinishingShip == false)
+            {
+                _botFinishingShip = true;
+                _firstHit = lastShot;
+                _possibleShots = new List<Shot>();
+
+                if (lastShot.GetY() != 0)
+                {
+                    _possibleShots.Add(new Shot(lastShot.GetY() - 1, lastShot.GetX()));
+                }
+                if (lastShot.GetY() != GetRows() - 1)
+                {
+                    _possibleShots.Add(new Shot(lastShot.GetY() + 1, lastShot.GetX()));
+                }
+                if (lastShot.GetX() != 0)
+                {
+                    _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() - 1));
+                }
+                if (lastShot.GetX() != GetCols() - 1)
+                {
+                    _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() + 1));
+                }
+
+                nextShot = _possibleShots[_possibleShots.Count - 1];
+            }
+            else if (lastShot.GetResult() == ShotResult.Damaged && _firstHit != lastShot)
+            {
+                if (_firstHit.GetY() < lastShot.GetY() && lastShot.GetY() != GetRows() - 1)
+                {
+                    _possibleShots.Add(new Shot(lastShot.GetY() + 1, lastShot.GetX()));
+                }
+                else if (_firstHit.GetY() > lastShot.GetY() && lastShot.GetY() != 0)
+                {
+                    _possibleShots.Add(new Shot(lastShot.GetY() - 1, lastShot.GetX()));
+                }
+                else if (_firstHit.GetX() < lastShot.GetX() && lastShot.GetX() != GetCols() - 1)
+                {
+                    _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() + 1));
+                }
+                else if (_firstHit.GetX() > lastShot.GetX() && lastShot.GetX() != 0)
+                {
+                    _possibleShots.Add(new Shot(lastShot.GetY(), lastShot.GetX() - 1));
+                }
+
+                nextShot = _possibleShots[_possibleShots.Count - 1];
+            }
+            else
+            {
+                if (lastShot.GetResult() == ShotResult.Destroyed && _botFinishingShip)
+                {
+                    _botFinishingShip = false;
+                    _firstHit = null;
+                    _possibleShots = null;
+                }
+                else
+                {
+                    if (_botFinishingShip)
+                    {
+                        do
+                        {
+                            nextShot = null;
+
+                            if (GetCurrentField()[_possibleShots[_possibleShots.Count - 1].GetY(), _possibleShots[_possibleShots.Count - 1].GetX()] != CellStatus.Hit
+                                && GetCurrentField()[_possibleShots[_possibleShots.Count - 1].GetY(), _possibleShots[_possibleShots.Count - 1].GetX()] != CellStatus.Miss)
+                            {
+                                nextShot = _possibleShots[_possibleShots.Count - 1];
+                                _possibleShots.RemoveAt(_possibleShots.Count - 1);
+                            }
+                            else
+                            {
+                                _possibleShots.RemoveAt(_possibleShots.Count - 1);
+                            }
+                        } while (nextShot == null);
+                    }
+                }
             }
         }
 
@@ -194,12 +343,12 @@ namespace Battleship
 
         public int GetRows()
         {
-            return _player[0].GetRowsOfField();
+            return _players[0].GetRowsOfField();
         }
 
         public int GetCols()
         {
-            return _player[0].GetColsOfField();
+            return _players[0].GetColsOfField();
         }
     }
 }

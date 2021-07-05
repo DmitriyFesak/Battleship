@@ -73,7 +73,6 @@ namespace Battleship
         public ShotResult MakeMove(Game game)
         {
             bool correctInput = false;
-            ShotResult result;
             int x, y;
 
             Console.WriteLine("Your turn!");
