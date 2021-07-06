@@ -160,10 +160,8 @@ namespace Battleship
                 }
             }
 
-            Console.WriteLine("Your field");
-            PrintBattlefield(playerFieldToShow);
-            Console.WriteLine("Enemy field");
-            PrintBattlefield(enemyFieldToShow);
+            PrintBattlefield(playerFieldToShow, enemyFieldToShow);
+            Console.ReadKey();
         }
 
         public string StartGame(Game game)
@@ -171,26 +169,39 @@ namespace Battleship
             return game.Start();
         }
 
-        private void PrintBattlefield(string [,] battlefield)
+        private void PrintBattlefield(string [,] battlefield, string[,] enemyBattlefield)
         {
-            Console.WriteLine("———————————————————————");
-            Console.WriteLine("| |0|1|2|3|4|5|6|7|8|9|");
-            Console.WriteLine("———————————————————————");
+            Console.WriteLine("Your field                       Enemy field");
+            Console.WriteLine("———————————————————————          ———————————————————————");
+            Console.WriteLine("| |0|1|2|3|4|5|6|7|8|9|          | |0|1|2|3|4|5|6|7|8|9|");
+            Console.WriteLine("———————————————————————          ———————————————————————");
+
             for (int i = 0; i < battlefield.GetLength(0); i++)
             {
                 Console.Write("|" + i);
+
                 for (int j = 0; j < battlefield.GetLength(1); j++)
                 {
                     Console.Write("|" + battlefield[i, j]);
                 }
+
+                Console.Write("|          |" + i);
+
+                for (int j = 0; j < enemyBattlefield.GetLength(1); j++)
+                {
+                    Console.Write("|" + enemyBattlefield[i, j]);
+                }
+
                 Console.Write("|\n");
             }
-            Console.WriteLine("———————————————————————");
+
+            Console.WriteLine("———————————————————————          ———————————————————————");
         }
 
         public void PrintResult(Shot shot, string name)
         {
             Console.WriteLine(name + " is shooting at coordinates: Y = " + shot.GetY() + "; X = " + shot.GetX());
+
             if (shot.GetResult() == ShotResult.Miss)
             {
                 Console.WriteLine("Miss!");
