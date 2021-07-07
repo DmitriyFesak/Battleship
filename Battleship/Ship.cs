@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Battleship
 {
-    abstract class Ship
+    public abstract class Ship
     {
         protected int _damagedSegments = 0;
 

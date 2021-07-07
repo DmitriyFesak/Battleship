@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Battleship
 {
-    interface IUserInterface
+    public interface IUserInterface
     {
         public ShotResult MakeMove(Game game);
         public void UpdateBattlefield(Game game);

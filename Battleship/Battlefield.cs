@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Battleship
 {
-    class Battlefield
+    public class Battlefield
     {
         public const int ROWS_COUNT = 10;
         public const int COLS_COUNT = 10;

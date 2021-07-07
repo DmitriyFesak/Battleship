@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Battleship
 {
-    class Cell
+    public class Cell
     {
         private int _x;
         private int _y;

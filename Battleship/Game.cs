@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Battleship
 {
-    class Game
+    public class Game
     {
         private Player[] _players;
         private int _turn = 0;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Battleship
 {
-    class Player
+    public class Player
     {
         private string _name;
         private Battlefield _field;

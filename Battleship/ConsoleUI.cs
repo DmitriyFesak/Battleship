@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Battleship
 {
-    class ConsoleUI : IUserInterface
+    public class ConsoleUI : IUserInterface
     {
         private static ConsoleUI _consoleUI = new ConsoleUI();
         private static bool _isStarted = false;

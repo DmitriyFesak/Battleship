@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Battleship
 {
-    class Submarine : Cruiser
+    public class Submarine : Cruiser
     {
         protected Cell _thirdSegment;
 
