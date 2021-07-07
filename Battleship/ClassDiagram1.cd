@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Battleship.Battlefield" Collapsed="true">
+    <Position X="6.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAGUAIAIAAABAABAAAECAAAAAAIgAABAhAAAAUAAyA=</HashCode>
+      <FileName>Battlefield.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleship.Battleship" Collapsed="true">
+    <Position X="10.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAACAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Battleship.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleship.Cell" Collapsed="true">
+    <Position X="6.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAKgAQABAAAAAAAAAAACIAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleship.ConsoleUI" Collapsed="true">
+    <Position X="0.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAEAAAAADgBAAiQgAAIAAABAAAAAI=</HashCode>
+      <FileName>ConsoleUI.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Battleship.Cruiser" Collapsed="true">
+    <Position X="4" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAACAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Cruiser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleship.Destroyer" Collapsed="true">
+    <Position X="4" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAACAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Destroyer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleship.Game" Collapsed="true">
+    <Position X="3.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAEAIACCAABAEAECCAIQCgABACAAAAAAQAgAAEACg=</HashCode>
+      <FileName>Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleship.Player" Collapsed="true">
+    <Position X="6.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAMIAAAAABBAAAAAAAABAkAAQAAAAABAAAQAAABgA=</HashCode>
+      <FileName>Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleship.Ship" Collapsed="true">
+    <Position X="4" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAABAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Ship.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleship.Shot" Collapsed="true">
+    <Position X="9.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAQAAAACAAAAAAAAAAAAAAAAZEAAAAAAAAA=</HashCode>
+      <FileName>Shot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Battleship.Submarine" Collapsed="true">
+    <Position X="7" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAACAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Submarine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Battleship.IUserInterface" Collapsed="true">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAEAAAAADgAAAgQgAAAAAAAAAAAAA=</HashCode>
+      <FileName>IUserInterface.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Battleship.CellStatus" Collapsed="true">
+    <Position X="11.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAgAAAAAAAAAIAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CellStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Battleship.ShipOrientation" Collapsed="true">
+    <Position X="11.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ShipOrientation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Battleship.ShotResult" Collapsed="true">
+    <Position X="11.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAIAAAAAIA=</HashCode>
+      <FileName>ShotResult.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

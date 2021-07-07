@@ -6,7 +6,6 @@ namespace Battleship
 {
     interface IUserInterface
     {
-        // TODO: input output parameters
         public ShotResult MakeMove(Game game);
         public void UpdateBattlefield(Game game);
         public void PrintResult(Shot shot, String name);
