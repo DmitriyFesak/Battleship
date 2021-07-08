@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Battleship;
 
-namespace Battleship
+namespace BattleshipConsoleUI
 {
     public class ConsoleUI : IUserInterface
     {
