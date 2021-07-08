@@ -5,9 +5,9 @@ using Battleship;
 
 namespace BattleshipConsoleUI
 {
-    public class ConsoleUI : IUserInterface
+    public class BattleshipConsoleUI : IUserInterface
     {
-        private static ConsoleUI _consoleUI = new ConsoleUI();
+        private static BattleshipConsoleUI _consoleUI = new BattleshipConsoleUI();
         private static bool _isStarted = false;
 
         public static void Main()
