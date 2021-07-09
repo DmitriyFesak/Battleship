@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Battleship", "Battleship\Battleship.csproj", "{DD00732F-2EB3-4A1B-A260-A185EF3D394D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{78ABABFE-7A31-451B-A729-53BB918F11BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{78ABABFE-7A31-451B-A729-53BB918F11BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{F79388EE-36FD-4403-B573-E547DF8829A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{F79388EE-36FD-4403-B573-E547DF8829A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicalUI", "GraphicalUI\GraphicalUI.csproj", "{C4D5AB41-D83E-48BF-8DB8-23EC8255B894}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{F79388EE-36FD-4403-B573-E547DF8829A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F79388EE-36FD-4403-B573-E547DF8829A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F79388EE-36FD-4403-B573-E547DF8829A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4D5AB41-D83E-48BF-8DB8-23EC8255B894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4D5AB41-D83E-48BF-8DB8-23EC8255B894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4D5AB41-D83E-48BF-8DB8-23EC8255B894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4D5AB41-D83E-48BF-8DB8-23EC8255B894}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

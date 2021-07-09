@@ -285,6 +285,7 @@ namespace Battleship
 
         public void UnsetShipLocation(int shipId)
         {
+            _blockedCells = new List<Cell>();
             _ships[shipId].UnsetLocation();
         }
     }
