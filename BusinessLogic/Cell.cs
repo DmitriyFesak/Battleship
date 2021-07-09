@@ -44,5 +44,14 @@ namespace Battleship
             isShipPlaced = true;
             _shipPlaced = ship;
         }
+
+        public void RemoveShipSegment()
+        {
+            if (isShipPlaced)
+            {
+                isShipPlaced = false;
+                _shipPlaced = null;
+            }
+        }
     }
 }

@@ -10,6 +10,8 @@ namespace Battleship
 
         public abstract void SetLocation(List<Cell> shipSegments);
 
+        public abstract void UnsetLocation();
+
         public abstract ShotResult DamageSegment();
     }
 }

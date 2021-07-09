@@ -181,7 +181,7 @@ namespace Battleship
             {
                 blockedCells.Add(_cells[y - 1, x]);
             }
-            if (y != 9)
+            if (y != ROWS_COUNT - 1)
             {
                 blockedCells.Add(_cells[y + 1, x]);
             }
@@ -189,7 +189,7 @@ namespace Battleship
             {
                 blockedCells.Add(_cells[y, x - 1]);
             }
-            if (x != 9)
+            if (x != COLS_COUNT - 1)
             {
                 blockedCells.Add(_cells[y, x + 1]);
             }
@@ -281,6 +281,11 @@ namespace Battleship
             }
 
             return true;
+        }
+
+        public void UnsetShipLocation(int shipId)
+        {
+            _ships[shipId].UnsetLocation();
         }
     }
 }

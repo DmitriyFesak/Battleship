@@ -365,6 +365,11 @@ namespace Battleship
             }
         }
 
+        public void UnsetShipLocation(int playerId, int shipId)
+        {
+            _players[playerId].UnsetShipLocation(shipId);
+        }
+
         public int GetRows()
         {
             return _players[0].GetRowsOfField();

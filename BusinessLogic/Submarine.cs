@@ -28,5 +28,16 @@ namespace Battleship
             _secondSegment = shipSegments[1];
             _thirdSegment = shipSegments[2];
         }
+
+        public override void UnsetLocation()
+        {
+            _firstSegment.RemoveShipSegment();
+            _secondSegment.RemoveShipSegment();
+            _thirdSegment.RemoveShipSegment();
+
+            _firstSegment = null;
+            _secondSegment = null;
+            _thirdSegment = null;
+        }
     }
 }

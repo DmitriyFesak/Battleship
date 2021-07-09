@@ -67,6 +67,11 @@ namespace Battleship
             return true;
         }
 
+        public void UnsetShipLocation(int shipId)
+        {
+            _field.UnsetShipLocation(shipId);
+        }
+
         public int GetAmountOfShips()
         {
             return _shipsLeft;
