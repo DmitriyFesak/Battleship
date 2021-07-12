@@ -15,7 +15,7 @@ namespace GraphicalUI
     {
         private Game _game;
         private GUI _gui;
-        private GUICell[,] _playerField, _enemyField;
+        private Button[,] _playerField, _enemyField;
         private ListBox _logs;
         private Button _btnAutoPLace, _btnStartGame, _btnNewGame;
         TextBox _playerName, _enemyName;
@@ -96,8 +96,8 @@ namespace GraphicalUI
                 {
                     for (int j = 0; j < COLS; j++)
                     {
-                        this.Controls.Remove(_playerField[i, j].button);
-                        this.Controls.Remove(_enemyField[i, j].button);
+                        this.Controls.Remove(_playerField[i, j]);
+                        this.Controls.Remove(_enemyField[i, j]);
                     }
                 }
             }
@@ -131,7 +131,7 @@ namespace GraphicalUI
 
         private void PlayerFieldInit()
         {
-            _playerField = new GUICell[ROWS, COLS];
+            _playerField = new Button[ROWS, COLS];
 
             _playerName = new TextBox();
             _playerName.Width = 240;
@@ -166,14 +166,14 @@ namespace GraphicalUI
                     btn.Location = new Point(CELLSIZE + j * CELLSIZE, 80 + i * CELLSIZE);
                     btn.Size = new Size(CELLSIZE, CELLSIZE);
                     this.Controls.Add(btn);
-                    _playerField[i, j] = new GUICell(btn);
+                    _playerField[i, j] = btn;
                 }
             }
         }
 
         private void EnemyFieldInit()
         {
-            _enemyField = new GUICell[ROWS, COLS];
+            _enemyField = new Button[ROWS, COLS];
 
             _enemyName = new TextBox();
             _enemyName.Width = 240;
@@ -208,7 +208,7 @@ namespace GraphicalUI
                     btn.Location = new Point(SPACEBETWEENFIELDS + CELLSIZE + j * CELLSIZE, 80 + i * CELLSIZE);
                     btn.Size = new Size(CELLSIZE, CELLSIZE);
                     this.Controls.Add(btn);
-                    _enemyField[i, j] = new GUICell(btn);
+                    _enemyField[i, j] = btn;
                 }
             }
         }

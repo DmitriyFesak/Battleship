@@ -9,13 +9,13 @@ namespace GraphicalUI
 {
     class GUI : IUserInterface
     {
-        private GUICell[,] _playerField, _enemyField;
+        private Button[,] _playerField, _enemyField;
         private ListBox _logs;
         private bool _isTurnEnded;
         private ShotResult _shotRes;
         private int _x, _y;
         public Game game { get; private set; }
-        public GUI(GUICell[,] playerField, GUICell[,] enemyField, ListBox logs)
+        public GUI(Button[,] playerField, Button[,] enemyField, ListBox logs)
         {
             _playerField = playerField;
             _enemyField = enemyField;
@@ -46,7 +46,7 @@ namespace GraphicalUI
             {
                 for (int j = 0; j < game.GetCols(); j++)
                 {
-                    _enemyField[i, j].button.Click += new EventHandler(Shoot);
+                    _enemyField[i, j].Click += new EventHandler(Shoot);
                 }
             }
 
@@ -64,7 +64,7 @@ namespace GraphicalUI
             {
                 for (int j = 0; j < game.GetCols(); j++)
                 {
-                    _enemyField[i, j].button.Click -= Shoot;
+                    _enemyField[i, j].Click -= Shoot;
                 }
             }
             
@@ -72,7 +72,7 @@ namespace GraphicalUI
             {
                 for (int j = 0; j < game.GetCols(); j++)
                 {
-                    if (_enemyField[i, j].button == sender)
+                    if (_enemyField[i, j] == sender)
                     {
                         _y = i;
                         _x = j;
@@ -135,39 +135,39 @@ namespace GraphicalUI
                 {
                     if (playerField[i, j] == CellStatus.Unshot)
                     {
-                        _playerField[i, j].button.Text = unshot;
-                        _playerField[i, j].button.BackColor = Color.White;
+                        _playerField[i, j].Text = unshot;
+                        _playerField[i, j].BackColor = Color.White;
                     }
                     else if (playerField[i, j] == CellStatus.Miss)
                     {
-                        _playerField[i, j].button.Text = miss;
-                        _playerField[i, j].button.BackColor = Color.Blue;
+                        _playerField[i, j].Text = miss;
+                        _playerField[i, j].BackColor = Color.Blue;
                     }
                     else if (playerField[i, j] == CellStatus.Hit)
                     {
-                        _playerField[i, j].button.Text = hit;
-                        _playerField[i, j].button.BackColor = Color.Red;
+                        _playerField[i, j].Text = hit;
+                        _playerField[i, j].BackColor = Color.Red;
                     }
                     else
                     {
-                        _playerField[i, j].button.Text = ship;
-                        _playerField[i, j].button.BackColor = Color.LightGreen;
+                        _playerField[i, j].Text = ship;
+                        _playerField[i, j].BackColor = Color.LightGreen;
                     }
 
                     if (enemyField[i, j] == CellStatus.Unshot)
                     {
-                        _enemyField[i, j].button.Text = unshot;
-                        _enemyField[i, j].button.BackColor = Color.White;
+                        _enemyField[i, j].Text = unshot;
+                        _enemyField[i, j].BackColor = Color.White;
                     }
                     else if (enemyField[i, j] == CellStatus.Miss)
                     {
-                        _enemyField[i, j].button.Text = miss;
-                        _enemyField[i, j].button.BackColor = Color.Blue;
+                        _enemyField[i, j].Text = miss;
+                        _enemyField[i, j].BackColor = Color.Blue;
                     }
                     else
                     {
-                        _enemyField[i, j].button.Text = hit;
-                        _enemyField[i, j].button.BackColor = Color.Red;
+                        _enemyField[i, j].Text = hit;
+                        _enemyField[i, j].BackColor = Color.Red;
                     }
                 }
             }
