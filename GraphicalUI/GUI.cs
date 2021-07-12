@@ -13,6 +13,7 @@ namespace GraphicalUI
         private ListBox _logs;
         private bool _isTurnEnded;
         private ShotResult _shotRes;
+        private int _x, _y;
         public Game game { get; private set; }
         public GUI(GUICell[,] playerField, GUICell[,] enemyField, ListBox logs)
         {
@@ -49,7 +50,7 @@ namespace GraphicalUI
                 }
             }
 
-            while(!_isTurnEnded)
+            while (!_isTurnEnded)
             {
                 Application.DoEvents();
             }
@@ -73,7 +74,9 @@ namespace GraphicalUI
                 {
                     if (_enemyField[i, j].button == sender)
                     {
-                        _shotRes = game.NextTurn(i, j);
+                        _y = i;
+                        _x = j;
+                        _shotRes = game.NextTurn(_y, _x);
                         _isTurnEnded = true;
                         break;
                     }
@@ -102,16 +105,13 @@ namespace GraphicalUI
             {
                 _logs.Items.Add("Ship was damaged!");
             }
-        }
 
-        public void SetPlayerName(int playerId, Game game)
-        {
-            throw new NotImplementedException();
+            _logs.TopIndex = _logs.Items.Count - 1;
         }
 
         public void ShowAlreadyShotMsg()
         {
-            throw new NotImplementedException();
+            MessageBox.Show("These coordinates have already been shot! Result = " + game.GetShotResult(_y, _x));
         }
 
         public string StartGame(Game game)

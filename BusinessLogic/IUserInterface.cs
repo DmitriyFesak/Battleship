@@ -10,7 +10,6 @@ namespace Battleship
         public void UpdateBattlefield(Game game);
         public void PrintResult(Shot shot, String name);
         public void ShowAlreadyShotMsg();
-        public void SetPlayerName(int playerId, Game game);
         public void ManualLocation();
         public void AutoLocation(Game game);
         public string StartGame(Game game);

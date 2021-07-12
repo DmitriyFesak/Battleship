@@ -34,6 +34,20 @@ namespace Battleship
             return _shotsHistory[_shotsHistory.Count - 1];
         }
 
+        public ShotResult GetShotResult(int y, int x)
+        {
+            ShotResult res = ShotResult.AlreadyShot;
+            for (int i = 0; i < _shotsHistory.Count; i++)
+            {
+                if (_shotsHistory[i].GetY() == y && _shotsHistory[i].GetX() == x)
+                {
+                    res = _shotsHistory[i].GetResult();
+                    break;
+                }
+            }
+            return res;
+        }
+
         public bool PlaceShipManually(int shipId, int y, int x, int orientation)
         {
             return _field.PlaceShipManually(shipId, y, x, orientation);

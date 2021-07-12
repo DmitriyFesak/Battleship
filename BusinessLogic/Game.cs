@@ -40,6 +40,13 @@ namespace Battleship
             return _players[playerId].GetLastShot();
         }
 
+        public ShotResult GetShotResult(int y, int x)
+        {
+            int playerId = ChoosePlayer();
+
+            return _players[playerId].GetShotResult(y, x);
+        }
+
         public bool PlaceShipManually(int playerId, int shipId, int y, int x, int orientation)
         {
             return _players[playerId].PlaceShipManually(shipId, y, x, orientation);
