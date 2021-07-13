@@ -240,19 +240,19 @@ namespace Battleship
         {
             int size = 0;
 
-            if (_ships[shipId].GetType() == typeof(Destroyer))
+            if (_ships[shipId] is Destroyer)
             {
                 size = 1;
             }
-            else if (_ships[shipId].GetType() == typeof(Cruiser))
+            else if (_ships[shipId] is Cruiser)
             {
                 size = 2;
             }
-            else if (_ships[shipId].GetType() == typeof(Submarine))
+            else if (_ships[shipId] is Submarine)
             {
                 size = 3;
             }
-            else if (_ships[shipId].GetType() == typeof(Battleship))
+            else if (_ships[shipId] is Battleship)
             {
                 size = 4;
             }

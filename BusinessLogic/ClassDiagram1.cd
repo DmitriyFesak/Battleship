@@ -1,25 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Battleship.Battlefield" Collapsed="true">
-    <Position X="6.75" Y="3.75" Width="1.5" />
+    <Position X="6.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAGUAIAIAAABAABAAAECAAAAAAIgAABAhAAAAUAAyA=</HashCode>
+      <HashCode>AEAGUAIAIAAABAABAEAECAAAAAAIgAABAhAAAAUAAyA=</HashCode>
       <FileName>Battlefield.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_cells" />
+      <Field Name="_ships" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Battleship.Battleship" Collapsed="true">
     <Position X="10.75" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAACAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAACAAgAACAAAAAAAA=</HashCode>
       <FileName>Battleship.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Battleship.Cell" Collapsed="true">
-    <Position X="6.75" Y="5" Width="1.5" />
+    <Position X="6.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAKgAQABAAAAAAAAAAACIAgAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAKgAQABAAAAAAAAAAASIAgAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Cell.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_shipPlaced" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Battleship.ConsoleUI" Collapsed="true">
     <Position X="0.75" Y="2" Width="1.5" />
@@ -32,40 +39,49 @@
   <Class Name="Battleship.Cruiser" Collapsed="true">
     <Position X="4" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAACAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAIAAAAAACAAAAAAAAAAAAAAAAAAAAgAACAAAAAAAA=</HashCode>
       <FileName>Cruiser.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Battleship.Destroyer" Collapsed="true">
     <Position X="4" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAACAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEAAAAAACAAAAAAAAAAAAAAAAAAAAgAACAAAAAAAA=</HashCode>
       <FileName>Destroyer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Battleship.Game" Collapsed="true">
     <Position X="3.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAEAIACCAABAEAECCAIQCgABACAAAAAAQAgAAEACg=</HashCode>
+      <HashCode>AEAAEAIACCAABAEAEGCAIQCgABACAAAAAAQAgAAkACg=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_players" />
+      <Field Name="_userInterface" />
+      <Field Name="nextShot" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Battleship.Player" Collapsed="true">
-    <Position X="6.75" Y="2" Width="1.5" />
+    <Position X="7" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAMIAAAAABBAAAAAAAABAkAAQAAAAABAAAQAAABgA=</HashCode>
+      <HashCode>AABAMIAAAAABBAAAAEAAABAkAAQAAAAABAAAQAAgBgA=</HashCode>
       <FileName>Player.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_field" />
+      <Field Name="_shotsHistory" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Battleship.Ship" Collapsed="true">
     <Position X="4" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAAABAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAACAAABAAAAAAAAAAAAAAAAgAACAAAAAAAA=</HashCode>
       <FileName>Ship.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Battleship.Shot" Collapsed="true">
-    <Position X="9.5" Y="2.75" Width="1.5" />
+    <Position X="3.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIAAQAAAACAAAAAAAAAAAAAAAAZEAAAAAAAAA=</HashCode>
       <FileName>Shot.cs</FileName>
@@ -74,14 +90,25 @@
   <Class Name="Battleship.Submarine" Collapsed="true">
     <Position X="7" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAABAACAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAABAACAAAAAAAAAAAAAAAAAAAAgAACAAAAAAAA=</HashCode>
       <FileName>Submarine.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="System.Collections.Generic.List&lt;T&gt;" Collapsed="true">
+    <Position X="2.25" Y="4" Width="1.5" />
+    <NestedTypes>
+      <Class Name="System.Collections.Generic.List&lt;T&gt;.Enumerator" Collapsed="true">
+        <TypeIdentifier />
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier />
+    <Lollipop Orientation="Left" Position="0.1" />
   </Class>
   <Interface Name="Battleship.IUserInterface" Collapsed="true">
     <Position X="0.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAQAAAAAEAAAAADgAAAgQgAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAADgAAAgQgAAAAAAAAAAAAA=</HashCode>
       <FileName>IUserInterface.cs</FileName>
     </TypeIdentifier>
   </Interface>
